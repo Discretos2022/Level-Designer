@@ -47,7 +47,7 @@ namespace Discretos_Level_Designer
             FileStream stream = File.OpenWrite(fileName);
             StreamWriter file = new StreamWriter(stream);
 
-            file.WriteLine("version : 1.0");
+            file.WriteLine("version : 2.0");
             file.WriteLine("");
 
             file.WriteLine("-----------------");
@@ -61,7 +61,39 @@ namespace Discretos_Level_Designer
                 for (int i = 0; i < width; i++)
                 {
                     file.Write((int)Handler.tiles[i, j].ID + ",");
-                    completion += 1.0f * 100.0f / (width * height);
+                    completion += 1.0f * 33.3f / (width * height);
+                    LoadingGUI.GUI.SetValue(completion);
+                }
+
+                file.Write("\n");
+            }
+
+            file.WriteLine("");
+            file.WriteLine("-----------------");
+            file.WriteLine("");
+
+            for (int j = 0; j < height; j++)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    file.Write((int)Handler.walls[i, j].ID + ",");
+                    completion += 1.0f * 33.3f / (width * height);
+                    LoadingGUI.GUI.SetValue(completion);
+                }
+
+                file.Write("\n");
+            }
+
+            file.WriteLine("");
+            file.WriteLine("-----------------");
+            file.WriteLine("");
+
+            for (int j = 0; j < height; j++)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    file.Write((int)Handler.walls[i, j].variante + ",");
+                    completion += 1.0f * 33.3f / (width * height);
                     LoadingGUI.GUI.SetValue(completion);
                 }
 
@@ -82,6 +114,7 @@ namespace Discretos_Level_Designer
             LoadingGUI.GUI.SetValue(completion);
             LoadingGUI.GUI.isActive = false;
 
+            isLoadedLevel = true;
 
         }
 
@@ -105,7 +138,7 @@ namespace Discretos_Level_Designer
             FileStream stream = File.OpenWrite(fileName);
             StreamWriter file = new StreamWriter(stream);
 
-            file.WriteLine("version : 1.0");
+            file.WriteLine("version : 2.0");
             file.WriteLine("");
 
             file.WriteLine("-----------------");
@@ -119,7 +152,39 @@ namespace Discretos_Level_Designer
                 for (int i = 0; i < width; i++)
                 {
                     file.Write((int)Handler.tiles[i, j].ID + ",");
-                    completion += 1.0f * 100.0f / (width * height);
+                    completion += 1.0f * 33.3f / (width * height);
+                    LoadingGUI.GUI.SetValue(completion);
+                }
+
+                file.Write("\n");
+            }
+
+            file.WriteLine("");
+            file.WriteLine("-----------------");
+            file.WriteLine("");
+
+            for (int j = 0; j < height; j++)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    file.Write((int)Handler.walls[i, j].ID + ",");
+                    completion += 1.0f * 33.3f / (width * height);
+                    LoadingGUI.GUI.SetValue(completion);
+                }
+
+                file.Write("\n");
+            }
+
+            file.WriteLine("");
+            file.WriteLine("-----------------");
+            file.WriteLine("");
+
+            for (int j = 0; j < height; j++)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    file.Write((int)Handler.walls[i, j].variante + ",");
+                    completion += 1.0f * 33.3f / (width * height);
                     LoadingGUI.GUI.SetValue(completion);
                 }
 
@@ -190,6 +255,7 @@ namespace Discretos_Level_Designer
             int height = lines.Count;
 
             EditorTile[,] level = new EditorTile[width, height];
+            Wall[,] walls = new Wall[width, height];
 
             for (int l = 0; l < height; l++)
             {
@@ -214,11 +280,70 @@ namespace Discretos_Level_Designer
                     LoadingGUI.GUI.SetValue(completion);
                 }
 
+            if (version == "version : 1.0")
+            {
+                for (int i = 0; i < walls.GetLength(0); i++)
+                    for (int j = 0; j < walls.GetLength(1); j++)
+                        walls[i, j] = new Wall(new Vector2(i * 16, j * 16), Wall.WallID.none, 0);
+
+                goto L_endStream;
+            }
+
+
+            file.ReadLine(); // 2e -----------
+            file.ReadLine(); // space
+
+
+
+
+            string line1;
+            List<string> lines1 = new List<string>();
+
+            while (true)
+            {
+                line1 = file.ReadLine();
+                if (line1 == "") break;
+                lines1.Add(line1);
+            }
+
+            file.ReadLine(); // 3e -----------
+            file.ReadLine(); // space
+
+            string line2;
+            List<string> lines2 = new List<string>();
+
+            while (true)
+            {
+                line2 = file.ReadLine();
+                if (line2 == "") break;
+                lines2.Add(line2);
+            }
+
+            for (int l = 0; l < height; l++)
+            {
+
+                string[] wallIDs = lines1[l].Split(',');
+                string[] wallVariantes = lines2[l].Split(',');
+
+                for (int i = 0; i < wallIDs.Length - 1; i++)
+                {
+
+                    walls[i, l] = new Wall(new Vector2(i * 16, l * 16), (Wall.WallID)int.Parse(wallIDs[i]), int.Parse(wallVariantes[i]));
+                    completion += 1.0f * 50.0f / (width * height);
+                    LoadingGUI.GUI.SetValue(completion);
+                }
+
+            }
+
+
+        L_endStream:;
+
 
             file.Close();
             stream.Close();
 
             Handler.tiles = level;
+            Handler.walls = walls;
 
             Console.WriteLine("Level loaded : " + name);
 

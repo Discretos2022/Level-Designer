@@ -17,7 +17,7 @@ namespace Discretos_Level_Designer
         private Vector2 PosInLevel;
 
         public WallID ID;
-        private int variante;
+        public int variante;
 
         private Rectangle Frame;
 

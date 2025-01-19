@@ -290,13 +290,13 @@ namespace Discretos_Level_Designer
         }
 
 
-
-
         public static void AddBlockLineLeft()
         {
             tilesCopie = tiles;
+            wallsCopie = walls;
 
             tiles = new EditorTile[tilesCopie.GetLength(0) + 1, tilesCopie.GetLength(1)];
+            walls = new Wall[wallsCopie.GetLength(0) + 1, wallsCopie.GetLength(1)];
 
 
             for (int i = 0; i < tiles.GetLength(0); i++)
@@ -311,14 +311,29 @@ namespace Discretos_Level_Designer
                 for (int j = 0; j < tiles.GetLength(1); j++)
                     tiles[i, j] = new EditorTile(new Vector2(16 * i, 16 * j), tiles[i, j].ID, tiles[i, j].isSlope);
 
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), 0, 0);
+
+            for (int i = 0; i < wallsCopie.GetLength(0); i++)
+                for (int j = 0; j < wallsCopie.GetLength(1); j++)
+                    walls[i + 1, j] = wallsCopie[i, j];
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), walls[i, j].ID, walls[i, j].variante);
+
             UpdateAllBlock();
 
         }
         public static void RemoveBlockLineLeft()
         {
             tilesCopie = tiles;
+            wallsCopie = walls;
 
             tiles = new EditorTile[tilesCopie.GetLength(0) - 1, tilesCopie.GetLength(1)];
+            walls = new Wall[wallsCopie.GetLength(0) - 1, wallsCopie.GetLength(1)];
 
 
             for (int i = 0; i < tiles.GetLength(0); i++)
@@ -333,6 +348,19 @@ namespace Discretos_Level_Designer
                 for (int j = 0; j < tiles.GetLength(1); j++)
                     tiles[i, j] = new EditorTile(new Vector2(16 * i, 16 * j), tiles[i, j].ID, tiles[i, j].isSlope);
 
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), 0, 0);
+
+            for (int i = 1; i < tilesCopie.GetLength(0); i++)
+                for (int j = 0; j < tilesCopie.GetLength(1); j++)
+                    walls[i - 1, j] = wallsCopie[i, j];
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), walls[i, j].ID, walls[i, j].variante);
+
             UpdateAllBlock();
 
         }
@@ -341,18 +369,28 @@ namespace Discretos_Level_Designer
         public static void AddBlockLineRight()
         {
             tilesCopie = tiles;
+            wallsCopie = walls;
 
             tiles = new EditorTile[tilesCopie.GetLength(0) + 1, tilesCopie.GetLength(1)];
+            walls = new Wall[wallsCopie.GetLength(0) + 1, wallsCopie.GetLength(1)];
 
 
             for (int i = 0; i < tiles.GetLength(0); i++)
                 for (int j = 0; j < tiles.GetLength(1); j++)
                     tiles[i, j] = new EditorTile(new Vector2(16 * i, 16 * j), 0);
 
-
             for (int i = 0; i < tilesCopie.GetLength(0); i++)
                 for (int j = 0; j < tilesCopie.GetLength(1); j++)
                     tiles[i, j] = tilesCopie[i, j];
+
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), 0, 0);
+
+            for (int i = 0; i < tilesCopie.GetLength(0); i++)
+                for (int j = 0; j < tilesCopie.GetLength(1); j++)
+                    walls[i, j] = wallsCopie[i, j];
 
             UpdateAllBlock();
 
@@ -360,18 +398,28 @@ namespace Discretos_Level_Designer
         public static void RemoveBlockLineRight()
         {
             tilesCopie = tiles;
+            wallsCopie = walls;
 
             tiles = new EditorTile[tilesCopie.GetLength(0) - 1, tilesCopie.GetLength(1)];
+            walls = new Wall[wallsCopie.GetLength(0) - 1, wallsCopie.GetLength(1)];
 
 
             for (int i = 0; i < tiles.GetLength(0); i++)
                 for (int j = 0; j < tiles.GetLength(1); j++)
                     tiles[i, j] = new EditorTile(new Vector2(16 * i, 16 * j), 0);
 
-
             for (int i = 0; i < tilesCopie.GetLength(0) - 1; i++)
                 for (int j = 0; j < tilesCopie.GetLength(1); j++)
                     tiles[i, j] = tilesCopie[i, j];
+
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), 0, 0);
+
+            for (int i = 0; i < tilesCopie.GetLength(0) - 1; i++)
+                for (int j = 0; j < tilesCopie.GetLength(1); j++)
+                    walls[i, j] = wallsCopie[i, j];
 
             UpdateAllBlock();
 
@@ -381,18 +429,28 @@ namespace Discretos_Level_Designer
         public static void AddBlockLineDown()
         {
             tilesCopie = tiles;
+            wallsCopie = walls;
 
             tiles = new EditorTile[tilesCopie.GetLength(0), tilesCopie.GetLength(1) + 1];
+            walls = new Wall[wallsCopie.GetLength(0), wallsCopie.GetLength(1) + 1];
 
 
             for (int i = 0; i < tiles.GetLength(0); i++)
                 for (int j = 0; j < tiles.GetLength(1); j++)
                     tiles[i, j] = new EditorTile(new Vector2(16 * i, 16 * j), 0);
 
-
             for (int i = 0; i < tilesCopie.GetLength(0); i++)
                 for (int j = 0; j < tilesCopie.GetLength(1); j++)
                     tiles[i, j] = tilesCopie[i, j];
+
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), 0, 0);
+
+            for (int i = 0; i < tilesCopie.GetLength(0); i++)
+                for (int j = 0; j < tilesCopie.GetLength(1); j++)
+                    walls[i, j] = wallsCopie[i, j];
 
             UpdateAllBlock();
 
@@ -400,18 +458,28 @@ namespace Discretos_Level_Designer
         public static void RemoveBlockLineDown()
         {
             tilesCopie = tiles;
+            wallsCopie = walls;
 
             tiles = new EditorTile[tilesCopie.GetLength(0), tilesCopie.GetLength(1) - 1];
+            walls = new Wall[wallsCopie.GetLength(0), wallsCopie.GetLength(1) - 1];
 
 
             for (int i = 0; i < tiles.GetLength(0); i++)
                 for (int j = 0; j < tiles.GetLength(1); j++)
                     tiles[i, j] = new EditorTile(new Vector2(16 * i, 16 * j), 0);
 
-
             for (int i = 0; i < tilesCopie.GetLength(0); i++)
                 for (int j = 0; j < tilesCopie.GetLength(1) - 1; j++)
                     tiles[i, j] = tilesCopie[i, j];
+
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), 0, 0);
+
+            for (int i = 0; i < tilesCopie.GetLength(0); i++)
+                for (int j = 0; j < tilesCopie.GetLength(1) - 1; j++)
+                    walls[i, j] = wallsCopie[i, j];
 
             UpdateAllBlock();
 
@@ -421,8 +489,10 @@ namespace Discretos_Level_Designer
         public static void AddBlockLineUp()
         {
             tilesCopie = tiles;
+            wallsCopie = walls;
 
             tiles = new EditorTile[tilesCopie.GetLength(0), tilesCopie.GetLength(1) + 1];
+            walls = new Wall[wallsCopie.GetLength(0), wallsCopie.GetLength(1) + 1];
 
 
             for (int i = 0; i < tiles.GetLength(0); i++)
@@ -437,14 +507,29 @@ namespace Discretos_Level_Designer
                 for (int j = 0; j < tiles.GetLength(1); j++)
                     tiles[i, j] = new EditorTile(new Vector2(16 * i, 16 * j), tiles[i, j].ID, tiles[i, j].isSlope);
 
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), 0, 0);
+
+            for (int i = 0; i < tilesCopie.GetLength(0); i++)
+                for (int j = 0; j < tilesCopie.GetLength(1); j++)
+                    walls[i, j + 1] = wallsCopie[i, j];
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), walls[i, j].ID, walls[i, j].variante);
+
             UpdateAllBlock();
 
         }
         public static void RemoveBlockLineUp()
         {
             tilesCopie = tiles;
+            wallsCopie = walls;
 
             tiles = new EditorTile[tilesCopie.GetLength(0), tilesCopie.GetLength(1) - 1];
+            walls = new Wall[wallsCopie.GetLength(0), wallsCopie.GetLength(1) - 1];
 
 
             for (int i = 0; i < tiles.GetLength(0); i++)
@@ -458,6 +543,19 @@ namespace Discretos_Level_Designer
             for (int i = 0; i < tiles.GetLength(0); i++)
                 for (int j = 0; j < tiles.GetLength(1); j++)
                     tiles[i, j] = new EditorTile(new Vector2(16 * i, 16 * j), tiles[i, j].ID, tiles[i, j].isSlope);
+
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), 0, 0);
+
+            for (int i = 0; i < tilesCopie.GetLength(0); i++)
+                for (int j = 1; j < tilesCopie.GetLength(1); j++)
+                    walls[i, j - 1] = wallsCopie[i, j];
+
+            for (int i = 0; i < walls.GetLength(0); i++)
+                for (int j = 0; j < walls.GetLength(1); j++)
+                    walls[i, j] = new Wall(new Vector2(16 * i, 16 * j), walls[i, j].ID, walls[i, j].variante);
 
             UpdateAllBlock();
 

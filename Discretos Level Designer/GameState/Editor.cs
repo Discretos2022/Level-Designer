@@ -452,7 +452,13 @@ namespace Discretos_Level_Designer
 
         public void InitCameraPosition()
         {
-            cameraPosition = Vector2.Zero;
+
+            Vector2 pos = StartPosTilePos;
+
+            pos.X = StartPosTilePos.X - ((29 * 32.0f) / Camera.Zoom);
+            pos.Y = StartPosTilePos.Y - ((17 * 32.0f) / Camera.Zoom);
+
+            cameraPosition = pos; //Vector2.Zero;
         }
 
         public enum Brush
